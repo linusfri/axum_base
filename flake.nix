@@ -15,7 +15,7 @@
         ];
 
         devDeps = buildDeps ++ [
-          pkgs.docker_26
+
         ];
       in
       {
