@@ -8,11 +8,11 @@ async fn main() {
 
     let db = MySqlPoolOptions::new()
         .max_connections(50)
-        .connect(&config.database_url)
+        .connect(&config.connection_string)
         .await
         .expect("Could not connect to database.");
 
-    let app_state = AppState ::new(db);
+    let app_state = AppState::new(db);
 
     http::serve(config, app_state).await;
 }
