@@ -5,8 +5,6 @@ use axum::{
 };
 
 use serde::{Deserialize, Serialize};
-use sqlx::Executor;
-
 use super::AppState;
 
 #[derive(Deserialize, Serialize)]

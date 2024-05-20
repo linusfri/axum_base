@@ -5,11 +5,19 @@ use axum::{
     Json, Router,
 };
 use crate::config::Config;
-use sqlx::mysql::MySqlPool;
+use sqlx::MySqlPool;
 
 #[derive(Clone)]
 pub struct AppState {
     db: MySqlPool
+}
+
+impl AppState {
+    pub fn new(db: MySqlPool) -> Self {
+        Self {
+            db
+        }
+    }
 }
 
 pub async fn serve(config: Config, state: AppState) {
