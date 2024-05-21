@@ -15,7 +15,7 @@
         ];
 
         devDeps = buildDeps ++ [
-
+          pkgs.nettools
         ];
       in
       {
