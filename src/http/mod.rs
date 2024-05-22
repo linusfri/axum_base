@@ -1,4 +1,5 @@
 pub mod post;
+pub mod types;
 
 use axum::{
     routing::get,

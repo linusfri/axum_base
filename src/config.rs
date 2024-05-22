@@ -10,10 +10,8 @@ impl Config {
     pub fn new() -> Self {
         dotenv::dotenv().ok();
 
-        let (connection_string, address_and_port) = match (std::env::var("DB_CONNECTION_STRING"), std::env::var("ADDRESS_AND_PORT")) {
-            (Ok(connection_string), Ok(address_and_port)) => (connection_string, address_and_port),
-            _ => panic!("Check env file. DB_CONNECTION_STRING and ADDRESS_AND_PORT must be set.")
-        };
+        let connection_string = std::env::var("DB_CONNECTION_STRING").expect("DB_CONNECTION_STRING must be set.");
+        let address_and_port = std::env::var("ADDRESS_AND_PORT").expect("ADDRESS_AND_PORT must be set.");
 
         Config { connection_string, address_and_port }
     }

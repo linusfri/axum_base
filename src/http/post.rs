@@ -1,52 +1,46 @@
-use std::vec;
-
 use axum::{
-    extract::State, http::StatusCode, routing::get, Json, Router
+    extract::State, http::StatusCode, routing::{get, post}, Json, Router
 };
 
 use serde::{Deserialize, Serialize};
-use super::AppState;
+use time::OffsetDateTime;
+use crate::http::AppState;
 
 #[derive(Deserialize, Serialize)]
 pub struct Post {
-    id: i32,
+    id: u64,
     title: String,
-    body: String,
-    published: bool,
+    content: String,
+    #[serde(with = "time::serde::rfc3339::option")]
+    created_at: Option<OffsetDateTime>,
 }
 
-#[derive(Debug)]
-struct Number {
-    sum: i64
+#[derive(Deserialize, Serialize)]
+pub struct InsertPost {
+    title: String,
+    content: String,
 }
-
 
 pub fn post_routes() -> Router<AppState> {
     Router::new()
-        .route("/post", get(fetch_all))
-        .route("/post/db", get(test_db))
-}
-
-async fn test_db(State(state): State<AppState>) -> Result<Json<i64>, StatusCode> {
-    let res: Number = sqlx::query_as!(Number, "select 1 + 2 as sum").fetch_one(&state.db).await.unwrap();
-    Ok(Json(2))
+        .route("/posts", get(fetch_all))
+        .route("/posts", post(create))
 }
 
 async fn fetch_all(State(state): State<AppState>) -> Result<Json<Vec<Post>>, StatusCode> {
-    let posts = vec![
-        Post {
-            id: 1,
-            title: "First Post".to_string(),
-            body: "This is the first post".to_string(),
-            published: true,
-        },
-        Post {
-            id: 2,
-            title: "Second Post".to_string(),
-            body: "This is the second post".to_string(),
-            published: false,
-        }
-    ];
+    let posts = sqlx::query_as!(Post, "SELECT * FROM posts")
+        .fetch_all(&state.db)
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
 
     Ok(Json(posts))
+}
+
+async fn create(State(state): State<AppState>, Json(post): Json<InsertPost>) -> Result<StatusCode, StatusCode> {
+    sqlx::query_as!(Post, "INSERT INTO posts (title, content) VALUES (?, ?)", post.title, post.content)
+        .execute(&state.db)
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+
+    Ok(StatusCode::CREATED)
 }
