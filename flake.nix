@@ -16,6 +16,7 @@
 
         devDeps = buildDeps ++ [
           pkgs.nettools
+          pkgs.openssl
         ];
       in
       {

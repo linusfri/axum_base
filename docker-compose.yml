@@ -7,6 +7,7 @@ services:
         GROUP_ID: 1000
     environment:
       - CARGO_TARGET_DIR=/target
+      - TZ=Europe/Stockholm
     volumes:
       - .:/app
     extra_hosts:
