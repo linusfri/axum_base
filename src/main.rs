@@ -1,6 +1,6 @@
 use sqlx::mysql::MySqlPoolOptions;
 use axum_base::config::Config;
-use axum_base::http::{self, AppState};
+use axum_base::http;
 
 #[tokio::main]
 async fn main() {
@@ -12,7 +12,7 @@ async fn main() {
         .await
         .expect("Could not connect to database.");
 
-    let app_state = AppState::new(db);
+    let app_state = http::AppState::new(db);
 
     http::serve(config, app_state).await;
 }
