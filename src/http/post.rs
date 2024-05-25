@@ -1,5 +1,5 @@
 use axum::{
-    extract::State, http::StatusCode, routing::{get, post}, Json, Router
+    extract::State, http::StatusCode, routing::get, Json, Router
 };
 
 use serde::{Deserialize, Serialize};
@@ -23,8 +23,7 @@ pub struct InsertPost {
 
 pub fn post_routes() -> Router<AppState> {
     Router::new()
-        .route("/posts", get(fetch_all))
-        .route("/posts", post(create))
+        .route("/posts", get(fetch_all).post(create))
 }
 
 async fn fetch_all(State(state): State<AppState>) -> Result<Json<Vec<Post>>, StatusCode> {
