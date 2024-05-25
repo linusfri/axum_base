@@ -5,6 +5,7 @@ use axum::{
     routing::get,
     Json, Router,
 };
+use tower_http::trace::TraceLayer;
 use crate::config::Config;
 use sqlx::MySqlPool;
 
@@ -22,9 +23,18 @@ impl AppState {
 }
 
 pub async fn serve(config: Config, state: AppState) {
-    let app = api_router().with_state(state);
+    // Create a new router with a TraceLayer and State.
+    let app = api_router()
+        .layer(TraceLayer::new_for_http())
+        .with_state(state);
+
+    // Subscribe to tracing events from TraceLayer
+    tracing_subscriber::fmt()
+        .with_max_level(tracing::Level::DEBUG)
+        .init();
 
     let listener = tokio::net::TcpListener::bind(config.address_and_port).await.unwrap();
+
     axum::serve(listener, app).await.unwrap();
 }
 
