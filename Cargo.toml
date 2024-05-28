@@ -16,3 +16,4 @@ anyhow = "1.0.86"
 sqlx = {version = "0.7.4", features = ["runtime-tokio", "mysql", "time"]}
 sqlx-cli = "0.7.4"
 time = {version = "0.3.36", features = ["serde", "formatting"]}
+axum-login = "0.15.1"
