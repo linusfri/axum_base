@@ -30,6 +30,7 @@ in
   };
 
   scripts.mysql-local.exec = with variables; "mysql -u '${dbUser}' --password='${dbPassword}' -h '${dbHost}' '${dbName}' \"$@\"";
+  scripts.migrate.exec = "sqlx migrate run";
 
   processes = {
     axumBase.exec = "cargo watch -x run";
