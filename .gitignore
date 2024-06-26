@@ -1,6 +1,6 @@
 /target
 .direnv
-.sqlx# Devenv
+.sqlx
 .devenv*
 devenv.local.nix
 
