@@ -6,3 +6,7 @@ inputs:
         follows: nixpkgs
   nixpkgs:
     url: github:NixOS/nixpkgs/nixpkgs-unstable
+  templates:
+    url: github:linusfri/templates
+imports:
+  - templates
