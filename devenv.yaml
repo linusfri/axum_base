@@ -8,5 +8,6 @@ inputs:
     url: github:NixOS/nixpkgs/nixpkgs-unstable
   templates:
     url: github:linusfri/templates
+    flake: false
 imports:
   - templates
