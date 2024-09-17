@@ -151,10 +151,10 @@
     "templates": {
       "flake": false,
       "locked": {
-        "lastModified": 1720471929,
+        "lastModified": 1726599543,
         "owner": "linusfri",
         "repo": "templates",
-        "rev": "4d940f5458e47b2425ff25cf8d707c362bbc408b",
+        "rev": "06ed61ee9d4133f2976f30bf435567e9c7a291ae",
         "type": "github"
       },
       "original": {
