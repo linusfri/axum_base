@@ -6,6 +6,7 @@ in
   packages = [
     pkgs.openssl
     pkgs.cargo-watch
+    pkgs.sqlx-cli
   ];
 
   languages = {
