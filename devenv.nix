@@ -1,12 +1,17 @@
 { pkgs, lib, config, inputs, ... }:
 let
   name = "axumBase";
+  
 in
 {
+  env = {
+    OPENSSL_DIR = "${config.env.DEVENV_PROFILE}";
+  };
   packages = [
-    pkgs.openssl
+    pkgs.openssl.dev
     pkgs.cargo-watch
     pkgs.sqlx-cli
+    pkgs.pkg-config
   ];
 
   languages = {
@@ -28,5 +33,6 @@ in
 
   services.linusfri.mysql = {
     enable = true;
+    dbName = "axum_base";
   };
 }
